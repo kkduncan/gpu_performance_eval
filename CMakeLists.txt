@@ -88,6 +88,9 @@ endif ()
 # Disable compiler extensions:
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Set C++ standard
+set (CMAKE_CXX_STANDARD 14)
+
 # Where to put build outputs. Use CMAKE_BINARY_DIR so they'll show up in the
 # top-level project's dir when building Thrust via add_subdirectory.
 set(THRUST_LIBRARY_OUTPUT_DIR "${CMAKE_BINARY_DIR}/lib")
@@ -117,17 +120,17 @@ if (THRUST_ENABLE_TESTING OR THRUST_ENABLE_EXAMPLES)
   enable_testing()
 endif()
 
-if (THRUST_ENABLE_TESTING)
-  add_subdirectory(testing)
-endif()
+#if (THRUST_ENABLE_TESTING)
+#  add_subdirectory(testing)
+#endif()
 
 if (THRUST_ENABLE_EXAMPLES)
   add_subdirectory(examples)
 endif()
 
-if (THRUST_ENABLE_BENCHMARKS)
-  add_subdirectory(internal/benchmark)
-endif()
+#if (THRUST_ENABLE_BENCHMARKS)
+#  add_subdirectory(internal/benchmark)
+#endif()
 
 if (THRUST_INCLUDE_CUB_CMAKE AND THRUST_CUDA_FOUND)
   set(CUB_IN_THRUST ON)
