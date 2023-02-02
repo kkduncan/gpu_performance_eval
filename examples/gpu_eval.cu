@@ -144,8 +144,6 @@ void processingPipeline(int w, int h)
 
     thrust::device_vector<float> H(N);
 
-    MinMaxUnaryOp<float>  unaryOp;
-    MinMaxBinaryOp<float> binaryOp;
     Square<float>         squareOp;
     thrust::plus<float>   plusOp;
 
@@ -190,12 +188,6 @@ void processingPipeline(int w, int h)
     thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(CD.begin(), CplusD.begin(), G.begin())),
                      thrust::make_zip_iterator(thrust::make_tuple(CD.end(), CplusD.end(), G.end())),
                      Divide2());
-
-    // MinMax(F)
-    MinMaxPair<float> minmaxF = thrust::transform_reduce(F.begin(), F.end(), unaryOp, unaryOp(F[0]), binaryOp);
-
-    // MinMax(G)
-    MinMaxPair<float> minmaxG = thrust::transform_reduce(G.begin(), G.end(), unaryOp, unaryOp(G[0]), binaryOp);
 
     // H = F - G
     thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(F.begin(), G.begin(), H.begin())),

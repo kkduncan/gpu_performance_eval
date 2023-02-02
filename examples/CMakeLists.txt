@@ -43,6 +43,9 @@ if (THRUST_ENABLE_EXAMPLE_FILECHECK)
   endif()
 endif()
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 # Create meta targets that build all examples for a single configuration:
 foreach(thrust_target IN LISTS THRUST_TARGETS)
   thrust_get_target_property(config_prefix ${thrust_target} PREFIX)
@@ -92,7 +95,7 @@ function(thrust_add_example target_name_var example_name example_src thrust_targ
   set(example_meta_target thrust.all.example.${example_name})
 
   add_executable(${example_target} "${real_example_src}" include/thread_pool.cpp)
-  target_link_libraries(${example_target} ${thrust_target})
+  target_link_libraries(${example_target} ${thrust_target} Threads::Threads)
   target_include_directories(${example_target} PRIVATE "${Thrust_SOURCE_DIR}/examples")
   thrust_clone_target_properties(${example_target} ${thrust_target})
 
